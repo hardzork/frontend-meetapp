@@ -22,6 +22,10 @@ export const Week = styled.div`
   color: #1c2938;
   width: 500px;
   padding: 0.5em 0;
+  button {
+    border: none;
+    background: transparent;
+  }
 `;
 export const Day = styled.div`
   padding: 0.5em 1em;

@@ -1488,6 +1488,11 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"
   integrity sha512-Il2DtDVRGDcqjDtE+rF8iqg1CArehSK84HZJCT7AMITlyXRBpuPhqGLDQMowraqqu1coEaimg4ZOqggt6L6L+A==
 
+"@types/prop-types@^15.5.3":
+  version "15.7.2"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.2.tgz#0e58ae66773d7fd7c372a493aff740878ec9ceaa"
+  integrity sha512-f8JzJNWVhKtc9dg/dyDNfliTKNOJSLa7Oht/ElZdF/UbMUmAH3rLmAk3ODNjw0mZajDEgatA03tRjB4+Dp/tzA==
+
 "@types/q@^1.5.1":
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
@@ -8787,6 +8792,14 @@ react-router-dom@^5.0.1:
     react-router "5.0.1"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
+
+react-router-prop-types@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-router-prop-types/-/react-router-prop-types-1.0.4.tgz#74716e92d014bb51ee4376ee198f34903cf8dc1d"
+  integrity sha512-tXDQe0pnBTXjFivBa69hYibtgI3hz+Q/VmhMT7vIzYVPv574dd+lIuBIWOBH9dZkHeSuD6iur6zkmss3QVTeew==
+  dependencies:
+    "@types/prop-types" "^15.5.3"
+    prop-types "^15.6.1"
 
 react-router@5.0.1:
   version "5.0.1"

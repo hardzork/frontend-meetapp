@@ -9,7 +9,13 @@ import logo from '~/assets/logo-header.png';
 import { Container, Content, Profile } from './styles';
 
 export default function Header() {
-  const profile = useSelector(state => state.user.profile);
+  const profile = useSelector(state => {
+    const [firstName] = state.user.profile.name.split(' ');
+    return {
+      firstName,
+      ...state.user.profile,
+    };
+  });
   const dispatch = useDispatch();
   function handleSignOut() {
     dispatch(signOut());
@@ -25,7 +31,7 @@ export default function Header() {
           {/* <Notifications /> */}
           <Profile>
             <div>
-              <Link to="/profile">{profile.name}</Link>
+              <Link to="/profile">Olá, {profile.firstName}</Link>
               {/* <strong>{profile.name}</strong> */}
               <div>
                 {/* <Link to="/profile">Meu Perfil</Link> */}
