@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { startOfWeek, startOfDay, endOfWeek } from 'date-fns';
 import { signOut } from '~/store/modules/auth/actions';
 
 // import Notifications from '~/components/Notifications';
@@ -20,12 +21,20 @@ export default function Header() {
   function handleSignOut() {
     dispatch(signOut());
   }
+
+  const dashboardLocation = {
+    pathname: '/dashboard',
+    state: [
+      startOfWeek(startOfDay(new Date())),
+      endOfWeek(startOfDay(new Date())),
+    ],
+  };
   return (
     <Container>
       <Content>
         <nav>
           <img src={logo} alt="MeetApp" />
-          <Link to="/dashboard">DASHBOARD</Link>
+          <Link to={dashboardLocation}>DASHBOARD</Link>
         </nav>
         <aside>
           {/* <Notifications /> */}

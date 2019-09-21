@@ -4,8 +4,11 @@ import { utcToZonedTime } from 'date-fns-tz';
 import pt from 'date-fns/locale/pt-BR';
 import { MdArrowBack, MdArrowForward, MdPlace } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
+// import PropTypes from 'prop-types';
 
 import api from '~/services/api';
+import historyService from '~/services/history';
 
 import {
   Container,
@@ -21,11 +24,14 @@ import {
   Meetups,
 } from './styles';
 
-export default function Dashboard() {
-  const [startDate, setStartDate] = useState(
-    startOfWeek(startOfDay(new Date()))
-  );
-  const [endDate, setEndDate] = useState(endOfWeek(startOfDay(new Date())));
+export default function Dashboard({ history }) {
+  let startDateHistory = startOfWeek(startOfDay(new Date()));
+  let endDateHistory = endOfWeek(startOfDay(new Date()));
+  if (history) {
+    [startDateHistory, endDateHistory] = history.location.state;
+  }
+  const [startDate, setStartDate] = useState(startDateHistory);
+  const [endDate, setEndDate] = useState(endDateHistory);
   const [meetings, setMeetings] = useState([]);
   const startDateFormatted = useMemo(
     () => format(startDate, 'dd MMMM yyyy', { locale: pt }),
@@ -76,6 +82,10 @@ export default function Dashboard() {
     setEndDate(endOfWeek(startOfDay(newDate)));
   }
 
+  function handleViewDetails(id) {
+    historyService.push(`/meetups/${id}/details`, [startDate, endDate]);
+  }
+
   return (
     <Container>
       <Calendar>
@@ -97,7 +107,10 @@ export default function Dashboard() {
             </Day>
             <Meetups>
               {day.meetups.map(meetup => (
-                <Link to={`/details/${meetup.id}`}>
+                <button
+                  type="button"
+                  onClick={() => handleViewDetails(meetup.id)}
+                >
                   <Meetup past={meetup.past}>
                     <Time>
                       <div>{meetup.hour}</div>
@@ -113,7 +126,7 @@ export default function Dashboard() {
                       </Place>
                     </Description>
                   </Meetup>
-                </Link>
+                </button>
               ))}
             </Meetups>
           </>
@@ -122,3 +135,11 @@ export default function Dashboard() {
     </Container>
   );
 }
+
+Dashboard.propTypes = {
+  history: ReactRouterPropTypes.history,
+};
+
+Dashboard.defaultProps = {
+  history: null,
+};

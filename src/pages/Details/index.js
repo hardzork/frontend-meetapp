@@ -1,53 +1,91 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+
 import ReactRouterPropTypes from 'react-router-prop-types';
-import { MdEdit, MdDeleteForever } from 'react-icons/md';
+import {
+  MdEdit,
+  MdDeleteForever,
+  MdEvent,
+  MdPlace,
+  MdUndo,
+} from 'react-icons/md';
+
+import api from '~/services/api';
+import historyService from '~/services/history';
 
 import {
   Container,
   Header,
+  Title,
   Banner,
+  GoBackButton,
   EditButton,
   DeleteButton,
   Desciption,
   Info,
 } from './styles';
 
-export default function Details({ match }) {
+export default function Details({ match, history }) {
+  const [id] = useState(match.params.id);
+  const [meetup, setMeetup] = useState({ owner: {}, banner: {} });
+  useEffect(() => {
+    async function loadDetails() {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const response = await api.get(`meetups/${id}`);
+      const data = {
+        dateFormatted: format(
+          utcToZonedTime(response.data.date, timezone),
+          'dd/MM/yyyy'
+        ),
+        hour: format(utcToZonedTime(response.data.date, timezone), 'HH:mm'),
+        ...response.data,
+      };
+      setMeetup(data);
+    }
+    loadDetails();
+  }, [id]);
+
+  function handleGoBackToDashboard() {
+    historyService.push('/dashboard', [...history.location.state]);
+  }
   return (
     <Container>
       <Header>
-        <span>Título do Meetup selecionado</span>
+        <Title>
+          <span>{meetup.title}</span>
+          <strong>por {meetup.owner.name}</strong>
+        </Title>
         <div>
-          <EditButton>
+          <GoBackButton onClick={handleGoBackToDashboard}>
+            <MdUndo />
+            Voltar
+          </GoBackButton>
+          <EditButton past={meetup.past}>
             <MdEdit color="#fff" />
             Editar
           </EditButton>
-          <DeleteButton>
+          <DeleteButton past={meetup.past}>
             <MdDeleteForever color="#fff" />
             Cancelar
           </DeleteButton>
         </div>
       </Header>
       <Banner>
-        <img
-          src="https://c1.sfdcstatic.com/content/dam/blogs/ca/Blog%20Posts/shake-up-sales-meeting-og.jpg"
-          alt="Título do Meetup selecionado"
-        />
+        <img src={meetup.banner.url} alt={meetup.title} />
       </Banner>
       <Desciption>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+        <p>{meetup.description}</p>
       </Desciption>
       <Info>
-        <span>Data do evento</span>
-        <span>Local do evento</span>
+        <span>
+          <MdEvent size={22} />
+          {meetup.dateFormatted} às {meetup.hour}
+        </span>
+        <span>
+          <MdPlace size={22} />
+          {meetup.location}
+        </span>
       </Info>
     </Container>
   );
@@ -55,4 +93,5 @@ export default function Details({ match }) {
 
 Details.propTypes = {
   match: ReactRouterPropTypes.match.isRequired,
+  history: ReactRouterPropTypes.history.isRequired,
 };

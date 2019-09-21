@@ -41,6 +41,12 @@ export const Day = styled.div`
 export const Meetups = styled.div`
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #ccc;
+  button {
+    border: none;
+    background: transparent;
+    display: block;
+    width: 500px;
+  }
 `;
 export const Meetup = styled.div`
   display: flex;
