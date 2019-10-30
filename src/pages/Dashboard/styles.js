@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { darken } from 'polished';
 
 export const Container = styled.div`
@@ -8,64 +8,60 @@ export const Container = styled.div`
 `;
 
 export const Calendar = styled.div`
-  max-width: 900px;
+  /* max-width: 900px; */
   margin-top: 50px;
-`;
-export const Week = styled.div`
-  font-size: 1.333334em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  background: #f7f7f7;
-  color: #1c2938;
-  width: 500px;
-  padding: 0.5em 0;
-  button {
-    border: none;
-    background: transparent;
-  }
-`;
-export const Day = styled.div`
-  padding: 0.5em 1em;
-  line-height: 1.5em;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  margin: 0;
-  /* border-top: 1px solid #1c2938; */
-  /* border-bottom: 1px solid #1c2938; */
-  color: #707070;
-`;
-export const Meetups = styled.div`
-  border-bottom: 1px solid #ccc;
-  border-top: 1px solid #ccc;
-  button {
-    border: none;
-    background: transparent;
-    display: block;
-    width: 500px;
+  h4 {
+    margin-bottom: 10px;
+    font-size: 32px;
+    color: #1c2938;
   }
 `;
 export const Meetup = styled.div`
+  position: relative;
+  min-width: 500px;
   display: flex;
   font-size: 0.875em;
   padding: 0.714286em 1em;
   cursor: pointer;
   opacity: ${props => (props.past ? 0.6 : 1)};
   background: #fff;
-  border-bottom: 1px solid #ccc;
-  /* border-color: #ccc; */
+  border-radius: 4px;
   color: #1c2938;
-  /* margin-top: -1px; */
   padding: 1em;
+  margin-bottom: 10px;
   font-weight: normal;
   text-shadow: none;
+  box-shadow: 0px 2px 2px 0px ${darken(0.2, '#ccc')};
   transition: background 0.2s;
   &:hover {
     background: ${darken(0.1, '#fff')};
   }
+  ${props =>
+    props.past &&
+    css`
+      box-shadow: none;
+      &::after {
+        position: absolute;
+        right: -4px;
+        top: -4px;
+        padding: 0;
+        width: 70px;
+        height: 15px;
+        background: #d04925;
+        /* text-align: right; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font: 0.714286em 'Roboto', sans-serif;
+        font-weight: bold;
+        font-style: italic;
+        content: 'Encerrado';
+        border-radius: 4px;
+        opacity: 0.8;
+        box-shadow: 0px 2px 2px 0px ${darken(0.2, '#ccc')};
+      }
+    `}
 `;
 export const Description = styled.div``;
 
@@ -97,7 +93,6 @@ export const Divisor = styled.div`
 `;
 
 export const Title = styled.div`
-  /* line-height: 1.142857; */
   display: block;
   line-height: 1.7;
   font-weight: 600;
@@ -107,5 +102,6 @@ export const Place = styled.div`
   align-items: center;
   justify-content: flex-start;
   opacity: 0.7;
+  margin-top: 4px;
   font: 0.714286em 'Roboto', sans-serif;
 `;

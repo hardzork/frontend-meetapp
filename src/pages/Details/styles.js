@@ -43,27 +43,6 @@ export const Title = styled.div`
   }
 `;
 
-export const GoBackButton = styled.button`
-  margin: 5px 0 0;
-  font: 14px 'Roboto', sans-serif !important;
-  height: 40px;
-  width: 100px;
-  margin-right: 10px;
-  background: #434982;
-  color: #fff;
-  border: 0;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: background 0.2s;
-
-  &:hover {
-    background: ${lighten(0.1, '#434982')};
-  }
-  svg {
-    margin-right: 5px;
-    vertical-align: middle;
-  }
-`;
 export const EditButton = styled.button.attrs(props => ({
   disabled: props.past,
 }))`
@@ -117,8 +96,8 @@ export const DeleteButton = styled.button.attrs(props => ({
 `;
 export const Banner = styled.div`
   img {
-    max-width: 900px;
-    max-height: 500px;
+    width: 940px;
+    max-height: 300px;
   }
 `;
 export const Desciption = styled.div`

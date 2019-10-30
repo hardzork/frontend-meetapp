@@ -1,6 +1,5 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
-import { startOfWeek, startOfDay, endOfWeek } from 'date-fns';
 
 import history from '~/services/history';
 import api from '~/services/api';
@@ -18,10 +17,7 @@ export function* signIn({ payload }) {
 
     yield put(signInSuccess(token, user));
 
-    history.push('/dashboard', [
-      startOfWeek(startOfDay(new Date())),
-      endOfWeek(startOfDay(new Date())),
-    ]);
+    history.push('/dashboard');
   } catch (err) {
     toast.error('Usuário ou senha inválidos.');
     yield put(signFailure());

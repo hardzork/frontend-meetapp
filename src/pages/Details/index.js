@@ -1,32 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
-
-import ReactRouterPropTypes from 'react-router-prop-types';
-import {
-  MdEdit,
-  MdDeleteForever,
-  MdEvent,
-  MdPlace,
-  MdUndo,
-} from 'react-icons/md';
+import PropTypes from 'prop-types';
+import { MdEdit, MdDeleteForever, MdEvent, MdPlace } from 'react-icons/md';
 
 import api from '~/services/api';
-import historyService from '~/services/history';
+import history from '~/services/history';
 
 import {
   Container,
   Header,
   Title,
   Banner,
-  GoBackButton,
   EditButton,
   DeleteButton,
   Desciption,
   Info,
 } from './styles';
 
-export default function Details({ match, history }) {
+export default function Details({ match }) {
   const [id] = useState(match.params.id);
   const [meetup, setMeetup] = useState({ owner: {}, banner: {} });
   useEffect(() => {
@@ -46,9 +38,10 @@ export default function Details({ match, history }) {
     loadDetails();
   }, [id]);
 
-  function handleGoBackToDashboard() {
-    historyService.push('/dashboard', [...history.location.state]);
+  function handleEdit() {
+    history.push(`/meetups/${id}/edit`);
   }
+
   return (
     <Container>
       <Header>
@@ -57,11 +50,7 @@ export default function Details({ match, history }) {
           <strong>por {meetup.owner.name}</strong>
         </Title>
         <div>
-          <GoBackButton onClick={handleGoBackToDashboard}>
-            <MdUndo />
-            Voltar
-          </GoBackButton>
-          <EditButton past={meetup.past}>
+          <EditButton past={meetup.past} onClick={handleEdit}>
             <MdEdit color="#fff" />
             Editar
           </EditButton>
@@ -92,6 +81,5 @@ export default function Details({ match, history }) {
 }
 
 Details.propTypes = {
-  match: ReactRouterPropTypes.match.isRequired,
-  history: ReactRouterPropTypes.history.isRequired,
+  match: PropTypes.shape.isRequired,
 };
